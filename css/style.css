@@ -19,3 +19,8 @@ main .wrap .object .form {
 .display_btn.emprunter_btn{
     background-color: dodgerblue;
 }
+
+main .wrap .produits {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
