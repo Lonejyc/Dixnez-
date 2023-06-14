@@ -119,90 +119,92 @@
                 <?php } if(isset($livre_error)) {?>
                     <span class="livre_error" ><?php echo $livre_error ?></span>
                 <?php } ?>
+                <div class="produits">
                 <?php if ($dn_objets = mysqli_query($CONNEXION, $request)): ?>
                 <?php foreach($dn_objets as $dn_objet): ?>
-                <div class="object">
-                    <img class="image" src="<?php echo $dn_objet['Affiche']; ?>">
-                    <div class="text">
-                        <span class="id"><?php echo $dn_objet['id']; ?></span>
-                        <span class="titre"><?php echo $dn_objet['Titre']; ?></span>
-                        <span class="infos"><?php echo $dn_objet['Date_sortie']; ?> - <?php echo $dn_objet['Style']; ?> - <?php echo $dn_objet['Duree']; ?></span>
-                        <span class="text"><?php echo $dn_objet['Description']; ?></span>
-                        <span class="quantite">
-                            <?php $request_quant = "SELECT COUNT(*) AS occurrences FROM dn_objets WHERE  dn_objets.Titre = '{$dn_objet['Titre']}' GROUP BY Titre ORDER BY id";
-                                $result = mysqli_query($CONNEXION, $request_quant);
-                                if ($result) {
-                                    while($row = $result->fetch_assoc()) {
-                                        $occurrences = $row["occurrences"];
-                                        echo "Quantité : " . $occurrences . "<br>"; }
-                                }
+                    <div class="object">
+                        <img class="image" src="<?php echo $dn_objet['Affiche']; ?>">
+                        <div class="text">
+                            <span class="id"><?php echo $dn_objet['id']; ?></span>
+                            <span class="titre"><?php echo $dn_objet['Titre']; ?></span>
+                            <span class="infos"><?php echo $dn_objet['Date_sortie']; ?> - <?php echo $dn_objet['Style']; ?> - <?php echo $dn_objet['Duree']; ?></span>
+                            <span class="text"><?php echo $dn_objet['Description']; ?></span>
+                            <span class="quantite">
+                                <?php $request_quant = "SELECT COUNT(*) AS occurrences FROM dn_objets WHERE  dn_objets.Titre = '{$dn_objet['Titre']}' GROUP BY Titre ORDER BY id";
+                                    $result = mysqli_query($CONNEXION, $request_quant);
+                                    if ($result) {
+                                        while($row = $result->fetch_assoc()) {
+                                            $occurrences = $row["occurrences"];
+                                            echo "Quantité : " . $occurrences . "<br>"; }
+                                    }
+                                ?>
+                            </span>
+                            <span class="disponibilite">Produit disponible : <?php echo $dn_objet['Disponibilite']; ?></span>
+                            <div class="reservation">
+                                <?php if ($dn_objet['Disponibilite'] === 'Oui') { ?>
+                                    <button type="button" class="emprunter_btn display_btn">Emprunter</button>
+                                <?php }elseif ($dn_objet['Disponibilite'] === 'Non') { ?>
+                                    <button type="button" class="rendre_btn display_btn">Rendre</button>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <?php
+                            $request = "SELECT Etat, id, Disponibilite  FROM dn_objets WHERE Titre = '{$dn_objet['Titre']}' AND (dn_objets.Categorie = 7 OR dn_objets.Categorie = 8)";
+                            $etats = mysqli_query($CONNEXION, $request);
+                        ?>
+                        <form method="POST" action="#">
+                            <div class="emprunt">
+                                <p>Choisissez l'état du produit :</p>
+                                <?php while ($etat = mysqli_fetch_assoc($etats)): ?>
+                                    <div class="etat">
+                                        <label for="product_<?php echo $etat['id']; ?>">
+                                            <input type="radio" name="product_id" id="product_<?php echo $etat['id']; ?>" value="<?php echo $etat['id']; ?>">
+                                            <span><?php echo $etat['Etat']; ?></span>
+                                        </label>
+                                    </div>
+                                <?php endwhile; ?>
+                                <button type="button" class="emprunterClose display_btn">Retour</button>
+                            </div>
+                            <?php
+                                $request = "SELECT * FROM dn_client";
+                                $mails = mysqli_query($CONNEXION, $request);
                             ?>
-                        </span>
-                        <span class="disponibilite">Produit disponible : <?php echo $dn_objet['Disponibilite']; ?></span>
-                        <div class="reservation">
-                            <?php if ($dn_objet['Disponibilite'] === 'Oui') { ?>
-                                <button type="button" class="emprunter_btn display_btn">Emprunter</button>
-                            <?php }elseif ($dn_objet['Disponibilite'] === 'Non') { ?>
-                                <button type="button" class="rendre_btn display_btn">Rendre</button>
-                            <?php } ?>
-                        </div>
+                            <div class="rendu">
+                                <select name="selected" id="mail">
+                                <?php while ($mail = mysqli_fetch_assoc($mails)): ?>
+                                    <option value="<?php echo $mail['id']; ?>"><?php echo $mail['Mail']; ?></option>
+                                <?php endwhile; ?>
+                                </select>
+                                <select name="etat_give" id="etat_give">
+                                    <option value="Neuf">Neuf</option>
+                                    <option value="Très bon état">Très bon état</option>
+                                    <option value="Bon état">Bon état</option>
+                                    <option value="Ok">Ok</option>
+                                </select>
+                                <input type="hidden" name="id" value="<?php echo $dn_objet['id']; ?>">
+                                <input type="hidden" name="Disponibilite" value="<?php echo $dn_objet['Disponibilite']; ?>">
+                                <input type="hidden" name="Etat" value="<?php echo $dn_objet['Etat']; ?>">
+                                <button type="submit" name="action" value="Rendre">Rendre</button>
+                                <button type="button" class="rendreClose display_btn">Retour</button>
+                            </div>
+                            <?php
+                                $request = "SELECT * FROM dn_client";
+                                $mails = mysqli_query($CONNEXION, $request);
+                            ?>
+                            <div class="user_form" style="display: none">
+                                <select name="select" id="mail">
+                                <?php while ($mail = mysqli_fetch_assoc($mails)): ?>
+                                    <option value="<?php echo $mail['id']; ?>"><?php echo $mail['Mail']; ?></option>
+                                <?php endwhile; ?>
+                                </select>
+                                <button type="submit" name="action" value="Emprunter">Valider</button>
+                            </div>
+                        </form>
                     </div>
-                    <?php
-                        $request = "SELECT Etat, id, Disponibilite  FROM dn_objets WHERE Titre = '{$dn_objet['Titre']}' AND (dn_objets.Categorie = 7 OR dn_objets.Categorie = 8)";
-                        $etats = mysqli_query($CONNEXION, $request);
-                    ?>
-                    <form method="POST" action="#">
-                        <div class="emprunt">
-                            <p>Choisissez l'état du produit :</p>
-                            <?php while ($etat = mysqli_fetch_assoc($etats)): ?>
-                                <div class="etat">
-                                    <label for="product_<?php echo $etat['id']; ?>">
-                                        <input type="radio" name="product_id" id="product_<?php echo $etat['id']; ?>" value="<?php echo $etat['id']; ?>">
-                                        <span><?php echo $etat['Etat']; ?></span>
-                                    </label>
-                                </div>
-                            <?php endwhile; ?>
-                            <button type="button" class="emprunterClose display_btn">Retour</button>
-                        </div>
-                        <?php
-                            $request = "SELECT * FROM dn_client";
-                            $mails = mysqli_query($CONNEXION, $request);
-                        ?>
-                        <div class="rendu">
-                            <select name="selected" id="mail">
-                            <?php while ($mail = mysqli_fetch_assoc($mails)): ?>
-                                <option value="<?php echo $mail['id']; ?>"><?php echo $mail['Mail']; ?></option>
-                            <?php endwhile; ?>
-                            </select>
-                            <select name="etat_give" id="etat_give">
-                                <option value="Neuf">Neuf</option>
-                                <option value="Très bon état">Très bon état</option>
-                                <option value="Bon état">Bon état</option>
-                                <option value="Ok">Ok</option>
-                            </select>
-                            <input type="hidden" name="id" value="<?php echo $dn_objet['id']; ?>">
-                            <input type="hidden" name="Disponibilite" value="<?php echo $dn_objet['Disponibilite']; ?>">
-                            <input type="hidden" name="Etat" value="<?php echo $dn_objet['Etat']; ?>">
-                            <button type="submit" name="action" value="Rendre">Rendre</button>
-                            <button type="button" class="rendreClose display_btn">Retour</button>
-                        </div>
-                        <?php
-                            $request = "SELECT * FROM dn_client";
-                            $mails = mysqli_query($CONNEXION, $request);
-                        ?>
-                        <div class="user_form" style="display: none">
-                            <select name="select" id="mail">
-                            <?php while ($mail = mysqli_fetch_assoc($mails)): ?>
-                                <option value="<?php echo $mail['id']; ?>"><?php echo $mail['Mail']; ?></option>
-                            <?php endwhile; ?>
-                            </select>
-                            <button type="submit" name="action" value="Emprunter">Valider</button>
-                        </div>
-                    </form>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                    <script src="js/display.js"></script>
                 </div>
-                <?php endforeach; ?>
-                <?php endif; ?>
-                <script src="js/display.js"></script>
             </div>
         </main>
         <footer>
