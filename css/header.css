@@ -1,0 +1,39 @@
+header .wrap{
+    display: flex;
+    justify-content: space-between;
+}
+
+header .wrap img {
+    height: 50px;
+    width: 100px;
+    margin-top: 10px;
+}
+
+header .wrap ul {
+    display: flex;
+    gap: 30px;
+}
+
+header .wrap ul li{
+    list-style: none;
+}
+
+header .wrap ul li img {
+    width: 20px;
+    height: 20px;
+    margin: auto 5px auto 0;
+}
+
+header .wrap ul li a{
+    text-decoration: none;
+    display: flex;
+}
+
+header .wrap ul li a p{
+    font-size: 16px;
+    color:white;
+}
+
+header .wrap ul li a:hover p{
+    text-decoration: underline;
+}

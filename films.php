@@ -79,24 +79,30 @@
 <html>
     <head>
         <link href="css/style.css" rel="stylesheet">
+        <link href="css/header.css" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
         <title>Dixnez +</title>
     </head>
 
     <body>
         <header>
-            <img src="images/icones/logo.svg">
-            <nav>
-                <ul>
-                    <li><a href="home.php"><img src="images/icones/accueil.svg">ACCUEIL</a></li>
-                    <li><a href="films.php"><img src="images/icones/films.svg">FILMS</a></li>
-                    <li><a href="livres.php"><img src="images/icones/livres.svg">LIVRES</a></li>
-                    <li><a href="musiques.php"><img src="images/icones/musiques.svg">MUSIQUES</a></li>
-                    <li><a href="multimedias.php"><img src="images/icones/multi.svg">MULTIMÉDIAS</a></li>
-                </ul>
-            </nav>
-            <div class="ajout">
-                <a href="ajout.php"><img src="images/icones/ajout.svg">AJOUT</a>
-                <a href="inscription.php"><img src="images/icones/">INSCRIPTION</a>
+            <div class="wrap">
+                <img src="images/icones/logo.svg">
+                <nav>
+                    <ul>
+                        <li><a href="home.php"><img src="images/icones/accueil.svg"><p>ACCUEIL</p></a></li>
+                        <li><a href="films.php"><img src="images/icones/films.svg"><p>FILMS</p></a></li>
+                        <li><a href="livres.php"><img src="images/icones/livres.svg"><p>LIVRES</p></a></li>
+                        <li><a href="musiques.php"><img src="images/icones/musiques.svg"><p>MUSIQUES</p></a></li>
+                        <li><a href="multimedias.php"><img src="images/icones/multi.svg"><p>MULTIMÉDIAS</p></a></li>
+                    </ul>
+                </nav>
+                <div class="ajout">
+                    <ul>
+                        <li><a href="ajout.php"><img src="images/icones/ajout.svg"><p>AJOUT</p></a></li>
+                        <li><a href="inscription.php"><img src="images/icones/inscrption.svg"><p>INSCRIPTION</p></a></li>
+                    </ul>
+                </div>
             </div>
         </header>
 
@@ -123,12 +129,13 @@
                 <?php if ($dn_objets = mysqli_query($CONNEXION, $request)): ?>
                 <?php foreach($dn_objets as $dn_objet): ?>
                     <div class="object">
-                        <img class="image" src="<?php echo $dn_objet['Affiche']; ?>">
+                        <div class="affiche">
+                            <img class="image" src="<?php echo $dn_objet['Affiche']; ?>">
+                        </div>
                         <div class="text">
-                            <span class="id"><?php echo $dn_objet['id']; ?></span>
                             <span class="titre"><?php echo $dn_objet['Titre']; ?></span>
                             <span class="infos"><?php echo $dn_objet['Date_sortie']; ?> - <?php echo $dn_objet['Style']; ?> - <?php echo $dn_objet['Duree']; ?></span>
-                            <span class="text"><?php echo $dn_objet['Description']; ?></span>
+                            <span class="resume">Résumé - <?php echo $dn_objet['Description']; ?></span>
                             <span class="quantite">
                                 <?php $request_quant = "SELECT COUNT(*) AS occurrences FROM dn_objets WHERE  dn_objets.Titre = '{$dn_objet['Titre']}' GROUP BY Titre ORDER BY id";
                                     $result = mysqli_query($CONNEXION, $request_quant);
@@ -152,7 +159,7 @@
                             $request = "SELECT Etat, id, Disponibilite  FROM dn_objets WHERE Titre = '{$dn_objet['Titre']}' AND (dn_objets.Categorie = 7 OR dn_objets.Categorie = 8)";
                             $etats = mysqli_query($CONNEXION, $request);
                         ?>
-                        <form method="POST" action="#">
+                        <form method="POST" action="#" class="formulaire">
                             <div class="emprunt">
                                 <p>Choisissez l'état du produit :</p>
                                 <?php while ($etat = mysqli_fetch_assoc($etats)): ?>
@@ -193,6 +200,7 @@
                             ?>
                             <div class="user_form" style="display: none">
                                 <select name="select" id="mail">
+                                    <option value="" disabled selected>Choisissez un utilisateur</option>
                                 <?php while ($mail = mysqli_fetch_assoc($mails)): ?>
                                     <option value="<?php echo $mail['id']; ?>"><?php echo $mail['Mail']; ?></option>
                                 <?php endwhile; ?>

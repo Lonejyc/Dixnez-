@@ -1,3 +1,27 @@
+@font-face {
+    font-family: "Avenir Next Regular";
+    src: url('../fonts/AvenirNextLTPro-Regular.otf');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Avenir Next Bold";
+    src: url('../fonts/AvenirNextLTPro-Bold.otf');
+    font-style: bold;
+}
+
+@font-face {
+    font-family: "Avenir Next Italic";
+    src: url('../fonts/AvenirNextLTPro-It.otf');
+    font-style: italic;
+}
+
+body{
+    background-color: #000;
+    color: white;
+    font-family: "Avenir Next Regular";
+}
+
 main .wrap .object form .emprunt {
     display: none;
 }
@@ -8,16 +32,6 @@ main .wrap .object form .rendu {
 
 main .wrap .object .form {
     display: none;
-}
-
-.display_btn{
-    background-color: tomato;
-    font-size: 18px;
-    text-transform: uppercase;
-}
-
-.display_btn.emprunter_btn{
-    background-color: dodgerblue;
 }
 
 main .wrap .produits {
