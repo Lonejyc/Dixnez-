@@ -1,0 +1,30 @@
+footer{
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF;
+    width: 100%;
+}
+
+
+footer p{
+    text-align: center;
+    font-family: 'Avenir Next Regular';
+    font-weight: 400;
+    font-size: 15px;
+    color: #000;
+    margin-block: 5px;
+}
+
+footer .last{
+    margin-bottom: 25px;
+}
+
+footer span{
+    text-decoration: underline ;
+}
+
+footer img{
+    margin-inline: auto;
+    margin-block: 20px;
+    width: 10%;
+}

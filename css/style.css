@@ -17,9 +17,16 @@
 }
 
 body{
-    background-color: #000;
+    background-color: #111111;
     color: white;
     font-family: "Avenir Next Regular";
+    margin: 0px;
+}
+
+.wrap {
+    max-width: 1800px;
+    width: 100%;
+    margin: auto;
 }
 
 main .wrap .object form .emprunt {

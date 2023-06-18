@@ -1,3 +1,21 @@
+main .wrap .top h1{
+    margin-left: 20px;
+}
+
+main .wrap .top form{
+    margin-left: 20px;
+}
+
+main .wrap .top form select{
+    width: 10vw;
+    height: 30px;
+    margin-inline: auto;
+    font-family: "Avenir Next Regular";
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
 main .wrap .produits .object .affiche{
     width: 200px;
     height: 300px;
@@ -17,17 +35,17 @@ main .wrap .produits .object{
 main .wrap .produits .object .text{
     display: flex;
     flex-direction: column;
-    max-width: 280px;
+    max-width: 300px;
 }
 
 main .wrap .produits .object .text .titre{
-    font-size: 30px;
+    font-size: 26px;
     font-family: "Avenir Next Bold";
     font-weight: 600;
 }
 
 main .wrap .produits .object .text .infos{
-    font-size: 28px;
+    font-size: 24px;
     font-family: "Avenir Next Regular";
     font-weight: 400;
 }
@@ -35,6 +53,17 @@ main .wrap .produits .object .text .infos{
 main .wrap .produits .object .text .resume{
     font-size: 13px;
     font-weight: 400;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    margin-block: 20px;
+    transition: ease-in 0.5;
+}
+
+main .wrap .produits .object .text .resume:hover{
+    display: flex;
+    margin-block: 5px;
 }
 
 main .wrap .produits .object .text .quantite{
@@ -43,23 +72,226 @@ main .wrap .produits .object .text .quantite{
 }
 
 .display_btn{
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    border: black 2px solid;
+    color: black;
+    font-size: 18px;
+    font-family: "Avenir Next Bold";
+    text-transform: uppercase;
+    padding: 2px 10px;
+    box-shadow: 3px 4px rgb(255, 255, 255);
+    transition: ease-in-out 0.3s;
+}
+
+.display_btn:hover{
+    transform: translate(3px, 4px);
+    box-shadow: none;
+}
+
+main .wrap .produits .object .formulaire {
+    position: fixed;
+    flex-direction: column;
+    top: 35%;
+    left: 35%;
+    z-index: 1;
+    width: 20vw;
+    height: 30vh;
+    border-radius: 10px;
+    background-color: rgb(148, 143, 190);
+    outline: 100vw solid rgb(0, 0, 0, 0.6);
+}
+
+main .wrap .produits .object .formulaire .emprunt {
+    flex-direction: column;
+}
+
+main .wrap .produits .object .formulaire .emprunt p{
+    color: black;
+    font-family: "Avenir Next Bold";
+    font-size: 18px;
+    max-width: 80%;
+    margin-inline: auto;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+main .wrap .produits .object .formulaire .emprunt .etat{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    color: black;
+    font-family: "Avenir Next Regular";
+    font-size: 18px;
+    margin-inline: auto;
+    margin-block: 10px;
+}
+
+main .wrap .produits .object .formulaire .emprunt .emprunterClose{
+    width: 120px;
+    padding-block: 5px;
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
     background-color: rgb(0, 0, 0);
     border-radius: 5px;
-    border: White 1px solid;
+    border: rgb(255, 255, 255) 2px solid;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-family: "Avenir Next Bold";
+    text-transform: uppercase;
+    box-shadow: 3px 4px rgb(0, 0, 0);
+    transition: ease-in-out 0.3s;
+}
+
+main .wrap .produits .object .formulaire .emprunt button:hover{
+    transform: translate(3px, 4px);
+    box-shadow: none;
+}
+
+main .wrap .produits .object .formulaire .emprunt .user_form button{
+    width: 120px;
+    padding-block: 5px;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    background-color: #87E990;
+    border-radius: 5px;
+    border: White 2px solid;
     color: white;
     font-size: 18px;
     font-family: "Avenir Next Bold";
     text-transform: uppercase;
+    box-shadow: 3px 4px #87E990;
+    transition: ease-in-out 0.3s;
 }
 
-.display_btn.emprunter_btn{
-    background-color: rgb(255, 255, 255);
-    border: black 1px solid;
-    color: black;
+main .wrap .produits .object .formulaire .emprunt .user_form button:hover{
+    transform: translate(3px, 4px);
+    box-shadow: none;
 }
 
-main .wrap .produits .object .formulaire {
+main .wrap .produits .object .formulaire .emprunt .etat .radio {
+    margin: 0.5rem;
+}
+
+main .wrap .produits .object .formulaire .emprunt .etat .radio input[type=radio] {
     position: absolute;
-    background-color: rgb(136, 199, 255);
-    outline: 100px solid rgb(0, 0, 0, 0.5);
+    opacity: 0;
+}
+
+main .wrap .produits .object .formulaire .emprunt .etat .radio input[type=radio] + .radio-label:before {
+    content: "";
+    background: #f4f4f4;
+    border-radius: 100%;
+    border: 1px solid #b4b4b4;
+    display: inline-block;
+    width: 1.4em;
+    height: 1.4em;
+    position: relative;
+    top: -0.2em;
+    margin-right: 1em;
+    vertical-align: top;
+    cursor: pointer;
+    text-align: center;
+    transition: all 250ms ease;
+}
+
+main .wrap .produits .object .formulaire .emprunt .etat .radio input[type=radio]:checked + .radio-label:before {
+    background-color: #2e5ddf;
+    box-shadow: inset 0 0 0 4px #f4f4f4;
+}
+
+main .wrap .produits .object .formulaire .emprunt .etat .radio input[type=radio]:focus + .radio-label:before {
+    outline: none;
+    border-color: #2e5ddf;
+}
+
+main .wrap .produits .object .formulaire .emprunt .etat .radio input[type=radio] + .radio-label:empty:before {
+    margin-right: 0;
+}
+
+main .wrap .produits .object .formulaire .user_form{
+    display: flex;
+    flex-direction: column;
+    margin-block: 25px;
+}
+
+main .wrap .produits .object .formulaire .user_form select{
+    width: 75%;
+    height: 30px;
+    margin-inline: auto;
+    font-family: "Avenir Next Regular";
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+main .wrap .produits .object .formulaire .rendu p{
+    color: black;
+    font-family: "Avenir Next Bold";
+    font-size: 18px;
+    max-width: 80%;
+    margin-inline: auto;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+main .wrap .produits .object .formulaire .rendu .rendreClose{
+    width: 120px;
+    padding-block: 5px;
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+    background-color: rgb(0, 0, 0);
+    border-radius: 5px;
+    border: rgb(255, 255, 255) 2px solid;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-family: "Avenir Next Bold";
+    text-transform: uppercase;
+    box-shadow: 3px 4px rgb(0, 0, 0);
+    transition: ease-in-out 0.3s;
+}
+
+main .wrap .produits .object .formulaire .rendu .rendreClose:hover{
+    transform: translate(3px, 4px);
+    box-shadow: none;
+}
+
+main .wrap .produits .object .formulaire .rendu .valider{
+    width: 120px;
+    padding-block: 5px;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    background-color: #87E990;
+    border-radius: 5px;
+    border: White 2px solid;
+    color: white;
+    font-size: 18px;
+    font-family: "Avenir Next Bold";
+    text-transform: uppercase;
+    box-shadow: 3px 4px #87E990;
+    transition: ease-in-out 0.3s;
+}
+
+main .wrap .produits .object .formulaire .rendu .valider:hover{
+    transform: translate(3px, 4px);
+    box-shadow: none;
+}
+
+main .wrap .produits .object .formulaire .rendu{
+    display: flex;
+    flex-direction: column;
+    margin-block: 25px;
+}
+
+main .wrap .produits .object .formulaire .rendu select{
+    width: 75%;
+    height: 30px;
+    margin: 20px auto;
+    font-family: "Avenir Next Regular";
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 5px;
 }

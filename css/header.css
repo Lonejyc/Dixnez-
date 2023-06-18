@@ -1,6 +1,7 @@
 header .wrap{
     display: flex;
     justify-content: space-between;
+    margin-inline: auto;
 }
 
 header .wrap img {

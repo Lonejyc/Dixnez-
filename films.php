@@ -49,8 +49,7 @@
             $action = $_POST['action'];
             $etat = $_POST['Etat'];
 
-            $id_client = $_POST['select'];
-            $id_client_rendu = $_POST['selected'];
+            $id_client = $_POST['selected'];
             $etat_give = $_POST['etat_give'];
         
             if ($action === 'Emprunter') {
@@ -60,7 +59,7 @@
                 $result = mysqli_query($CONNEXION, $sql_update);
             } elseif ($action === 'Rendre') {
                 $sql_update = "UPDATE dn_objets SET Disponibilite = 'Oui', Etat ='$etat_give' WHERE id =".$id_produit;
-                $rendu = "DELETE FROM dn_objets_has_dn_client WHERE dn_objets_id=".$id_produit." AND dn_client_id=".$id_client_rendu;
+                $rendu = "DELETE FROM dn_objets_has_dn_client WHERE dn_objets_id=".$id_produit." AND dn_client_id=".$id_client;
                 $result_rendu = mysqli_query($CONNEXION, $rendu);
                 if ($result_rendu) {
                     $verif = mysqli_affected_rows($CONNEXION);
@@ -81,6 +80,7 @@
         <link href="css/style.css" rel="stylesheet">
         <link href="css/header.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
+        <link href="css/footer.css" rel="stylesheet">
         <title>Dixnez +</title>
     </head>
 
@@ -159,30 +159,46 @@
                             $request = "SELECT Etat, id, Disponibilite  FROM dn_objets WHERE Titre = '{$dn_objet['Titre']}' AND (dn_objets.Categorie = 7 OR dn_objets.Categorie = 8)";
                             $etats = mysqli_query($CONNEXION, $request);
                         ?>
-                        <form method="POST" action="#" class="formulaire">
-                            <div class="emprunt">
+                        <form method="POST" action="#" class="formulaire" style="display: none">
+                            <div class="emprunt" style="display: none">
                                 <p>Choisissez l'état du produit :</p>
                                 <?php while ($etat = mysqli_fetch_assoc($etats)): ?>
                                     <div class="etat">
-                                        <label for="product_<?php echo $etat['id']; ?>">
+                                        <label class="radio" for="product_<?php echo $etat['id']; ?>">
                                             <input type="radio" name="product_id" id="product_<?php echo $etat['id']; ?>" value="<?php echo $etat['id']; ?>">
-                                            <span><?php echo $etat['Etat']; ?></span>
+                                            <span class="radio-label"><?php echo $etat['Etat']; ?></span>
                                         </label>
                                     </div>
                                 <?php endwhile; ?>
+                                <?php
+                                    $request = "SELECT * FROM dn_client";
+                                    $mails = mysqli_query($CONNEXION, $request);
+                                ?>
+                                <div class="user_form" style="display: none">
+                                    <select name="selected" id="mail">
+                                        <option value="" disabled selected>Choisissez un utilisateur</option>
+                                    <?php while ($mail = mysqli_fetch_assoc($mails)): ?>
+                                        <option value="<?php echo $mail['id']; ?>"><?php echo $mail['Mail']; ?></option>
+                                    <?php endwhile; ?>
+                                    </select>
+                                    <button type="submit" name="action" value="Emprunter">Valider</button>
+                                </div>
                                 <button type="button" class="emprunterClose display_btn">Retour</button>
                             </div>
                             <?php
                                 $request = "SELECT * FROM dn_client";
                                 $mails = mysqli_query($CONNEXION, $request);
                             ?>
-                            <div class="rendu">
-                                <select name="selected" id="mail">
+                            <div class="rendu" style="display: none">
+                                <p>Choisissez l'adresse de réservation et l'état du produit :</p>
+                                <select name="selected" id="mail_ed">
+                                    <option value="" disabled selected>Choisissez un utilisateur</option>
                                 <?php while ($mail = mysqli_fetch_assoc($mails)): ?>
                                     <option value="<?php echo $mail['id']; ?>"><?php echo $mail['Mail']; ?></option>
                                 <?php endwhile; ?>
                                 </select>
                                 <select name="etat_give" id="etat_give">
+                                    <option value="" disabled selected>Choisissez un état</option>
                                     <option value="Neuf">Neuf</option>
                                     <option value="Très bon état">Très bon état</option>
                                     <option value="Bon état">Bon état</option>
@@ -191,21 +207,8 @@
                                 <input type="hidden" name="id" value="<?php echo $dn_objet['id']; ?>">
                                 <input type="hidden" name="Disponibilite" value="<?php echo $dn_objet['Disponibilite']; ?>">
                                 <input type="hidden" name="Etat" value="<?php echo $dn_objet['Etat']; ?>">
-                                <button type="submit" name="action" value="Rendre">Rendre</button>
+                                <button type="submit" name="action" value="Rendre" class="valider">Rendre</button>
                                 <button type="button" class="rendreClose display_btn">Retour</button>
-                            </div>
-                            <?php
-                                $request = "SELECT * FROM dn_client";
-                                $mails = mysqli_query($CONNEXION, $request);
-                            ?>
-                            <div class="user_form" style="display: none">
-                                <select name="select" id="mail">
-                                    <option value="" disabled selected>Choisissez un utilisateur</option>
-                                <?php while ($mail = mysqli_fetch_assoc($mails)): ?>
-                                    <option value="<?php echo $mail['id']; ?>"><?php echo $mail['Mail']; ?></option>
-                                <?php endwhile; ?>
-                                </select>
-                                <button type="submit" name="action" value="Emprunter">Valider</button>
                             </div>
                         </form>
                     </div>
@@ -216,11 +219,11 @@
             </div>
         </main>
         <footer>
-        <img src="images/icones/logo2.svg">
+            <img src="images/icones/logo2.svg">
             <p>Si vous avez des questions ou un problèmes, contactez-nous à l'adresse suivante :</p>
             <p><span>serviceclient@dixnez.com</span> ou au <span>06 10 11 12 13</span></p>
             <p>Le contenu et les plateformes disponibles peuvent varier selon la zone géographique.</p>
-            <p>© 2023 Dixnez et ses sociétés affiliées. Tous droits réservés.</p>
+            <p class="last">© 2023 Dixnez et ses sociétés affiliées. Tous droits réservés.</p>
         </footer>
     </body>
 </html>
