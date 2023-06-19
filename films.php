@@ -64,10 +64,10 @@
                 if ($result_rendu) {
                     $verif = mysqli_affected_rows($CONNEXION);
                     if ($verif == '1') {
-                        $livre_succes = "Le livre a bien été rendu";
+                        $livre_succes = "Le film a bien été rendu";
                         $result = mysqli_query($CONNEXION, $sql_update);
                     } else {
-                        $livre_error = "Vous n'avez pas emprunté ce livre";
+                        $livre_error = "Vous n'avez pas emprunté ce film";
                     }
                 }
             }
@@ -99,7 +99,7 @@
                 </nav>
                 <div class="ajout">
                     <ul>
-                        <li><a href="ajout.php"><img src="images/icones/ajout.svg"><p>AJOUT</p></a></li>
+                        <li><a href="gestion.php"><img src="images/icones/gestion.svg"><p>GESTION</p></a></li>
                         <li><a href="inscription.php"><img src="images/icones/inscrption.svg"><p>INSCRIPTION</p></a></li>
                     </ul>
                 </div>
@@ -120,10 +120,10 @@
                         </select>
                     </form><!-- Filtre en fonction du style -->
                 </div>
-                <?php if(isset($livre_succes)) {?>
-                    <span class="livre_succes"><?php echo $livre_succes ?></span>
-                <?php } if(isset($livre_error)) {?>
-                    <span class="livre_error" ><?php echo $livre_error ?></span>
+                <?php if(isset($film_succes)) {?>
+                    <span class="succes"><?php echo $film_succes ?></span>
+                <?php } if(isset($film_error)) {?>
+                    <span class="error" ><?php echo $film_error ?></span>
                 <?php } ?>
                 <div class="produits">
                 <?php if ($dn_objets = mysqli_query($CONNEXION, $request)): ?>
