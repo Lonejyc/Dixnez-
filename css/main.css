@@ -17,12 +17,23 @@ main .wrap .top form select{
 }
 
 main .wrap .produits .object .affiche{
-    width: 200px;
-    height: 300px;
+    width: 15vw;
+    height: 22.5vw;
+    margin-right: 24px;
+}
+
+main .wrap .produits .object .affiche2{
+    width: 15vw;
+    height: 15vw;
     margin-right: 24px;
 }
 
 main .wrap .produits .object .affiche img{
+    width: 100%;
+    height: 100%;
+}
+
+main .wrap .produits .object .affiche2 img{
     width: 100%;
     height: 100%;
 }
