@@ -50,7 +50,6 @@
             $etat = $_POST['Etat'];
 
             $id_client = $_POST['selected'];
-            $etat_give = $_POST['etat_give'];
         
             if ($action === 'Emprunter') {
                 $sql_update = "UPDATE dn_objets SET Disponibilite = 'Non' WHERE id =".$id_produit;
@@ -58,16 +57,17 @@
                 $result_emprunt = mysqli_query($CONNEXION, $emprunt);
                 $result = mysqli_query($CONNEXION, $sql_update);
             } elseif ($action === 'Rendre') {
+                $etat_give = $_POST['etat_give'];
                 $sql_update = "UPDATE dn_objets SET Disponibilite = 'Oui', Etat ='$etat_give' WHERE id =".$id_produit;
                 $rendu = "DELETE FROM dn_objets_has_dn_client WHERE dn_objets_id=".$id_produit." AND dn_client_id=".$id_client;
                 $result_rendu = mysqli_query($CONNEXION, $rendu);
                 if ($result_rendu) {
                     $verif = mysqli_affected_rows($CONNEXION);
                     if ($verif == '1') {
-                        $livre_succes = "Le film a bien été rendu";
+                        $film_succes = "Le film a bien été rendu";
                         $result = mysqli_query($CONNEXION, $sql_update);
                     } else {
-                        $livre_error = "Vous n'avez pas emprunté ce film";
+                        $film_error = "Vous n'avez pas emprunté ce film";
                     }
                 }
             }
@@ -100,7 +100,7 @@
                 <div class="ajout">
                     <ul>
                         <li><a href="gestion.php"><img src="images/icones/gestion.svg"><p>GESTION</p></a></li>
-                        <li><a href="inscription.php"><img src="images/icones/inscrption.svg"><p>INSCRIPTION</p></a></li>
+                        <li><a href="inscription.php"><img src="images/icones/inscription.svg"><p>INSCRIPTION</p></a></li>
                     </ul>
                 </div>
             </div>
@@ -121,16 +121,16 @@
                     </form><!-- Filtre en fonction du style -->
                 </div>
                 <?php if(isset($film_succes)) {?>
-                    <span class="succes"><?php echo $film_succes ?></span>
+                    <p class="succes"><?php echo $film_succes ?></p>
                 <?php } if(isset($film_error)) {?>
-                    <span class="error" ><?php echo $film_error ?></span>
+                    <p class="error" ><?php echo $film_error ?></p>
                 <?php } ?>
                 <div class="produits">
                 <?php if ($dn_objets = mysqli_query($CONNEXION, $request)): ?>
                 <?php foreach($dn_objets as $dn_objet): ?>
                     <div class="object">
                         <div class="affiche">
-                            <img class="image" src="<?php echo $dn_objet['Affiche']; ?>">
+                            <img class="image" src="images/<?php echo $dn_objet['Affiche']; ?>">
                         </div>
                         <div class="text">
                             <span class="titre"><?php echo $dn_objet['Titre']; ?></span>
@@ -162,14 +162,14 @@
                         <form method="POST" action="#" class="formulaire" style="display: none">
                             <div class="emprunt" style="display: none">
                                 <p>Choisissez l'état du produit :</p>
-                                <?php while ($etat = mysqli_fetch_assoc($etats)): ?>
                                     <div class="etat">
+                                    <?php while ($etat = mysqli_fetch_assoc($etats)): ?>
                                         <label class="radio" for="product_<?php echo $etat['id']; ?>">
                                             <input type="radio" name="product_id" id="product_<?php echo $etat['id']; ?>" value="<?php echo $etat['id']; ?>">
                                             <span class="radio-label"><?php echo $etat['Etat']; ?></span>
                                         </label>
+                                        <?php endwhile; ?>
                                     </div>
-                                <?php endwhile; ?>
                                 <?php
                                     $request = "SELECT * FROM dn_client";
                                     $mails = mysqli_query($CONNEXION, $request);
